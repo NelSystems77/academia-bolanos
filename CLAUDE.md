@@ -206,6 +206,8 @@ tests/
 - [x] Primer commit a `main` — 50 archivos, 15 660 líneas
 - [x] Push a GitHub, GitHub Actions disparado
 - [x] Logo real implementado en Header — `icon-96.png` con `border-radius: 50%` + ring acento azul; reemplaza SVG genérico
+- [x] LanguageSwitcher movido a barra móvil (siempre visible junto al hamburger); eliminado del footer del menú móvil
+- [x] `ScrollToTop` — botón circular azul, aparece tras 400px scroll, apilado sobre WAB, oculto con `menu-open`, aria-label ES/EN
 - [ ] **PENDIENTE MANUAL:** Settings → Pages → Source: "GitHub Actions" (hacer una sola vez en GitHub)
 - [ ] Confirmar deploy exitoso en: `https://nelsystems77.github.io/academia-bolanos/`
 - [ ] Lighthouse audit en producción (target: Perf ≥ 90, A11y ≥ 95, BP ≥ 95, SEO = 100)
@@ -222,3 +224,4 @@ tests/
 | 2026-05-31 | Sesión 7 parcial — E2E Playwright 54/54 Chromium, axe WCAG A–AA, bug fix LanguageSwitcher base path | ✅ Completo |
 | 2026-05-31 | Sesión 8 parcial — Sitemap dinámico, font optimización, CI fix, primer push a GitHub | 🚀 En progreso |
 | 2026-05-31 | Logo real — `icon-96.png` redondo en Header, reemplaza SVG placeholder | ✅ Completo |
+| 2026-05-31 | LanguageSwitcher visible en móvil + ScrollToTop component | ✅ Completo |
