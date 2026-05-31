@@ -203,8 +203,9 @@
 
 .wa-pulse { animation: wa-pulse 2.5s ease-out infinite; }
 
-/* ── Hide WA FAB when mobile menu is open ─────────────────── */
-body.menu-open .wa-fab {
+/* ── Hide FABs when mobile menu is open ───────────────────── */
+body.menu-open .wa-fab,
+body.menu-open .scroll-top-btn {
   opacity: 0;
   pointer-events: none;
   transition: opacity 180ms ease;
