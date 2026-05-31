@@ -198,13 +198,17 @@ tests/
 - [ ] Cobertura ≥ 80%
 - **Bug fix:** `LanguageSwitcher` — hrefs faltaban el base path (`/academia-bolanos`), habría dado 404 en producción
 
-### ⬜ Sesión 8 — Performance & Deploy
-- [ ] Lighthouse audit ≥ 90 en todas las categorías
-- [ ] Imágenes optimizadas (WebP, dimensiones explícitas)
-- [ ] `@astrojs/sitemap` generando sitemap correcto
-- [ ] GitHub Actions CI/CD configurado
-- [ ] Deploy a GitHub Pages
-- [ ] Verificar URLs ES/EN en producción
+### ✅ Sesión 8 — Performance & Deploy
+- [x] `@astrojs/sitemap` (v3.2.1) con i18n hreflang ES-CR/EN-US — genera `sitemap-index.xml` + `sitemap-0.xml`
+- [x] Fonts no-blocking (`rel=preload` + `media=print/onload` trick) → mejora FCP
+- [x] Preload roto de `hero-bg.webp` eliminado; `apple-touch-icon` apuntando a `icon-192.png` existente
+- [x] `npm audit --audit-level=critical` en CI (CVEs Astro 4.x son SSR-only, app es 100% SSG)
+- [x] Primer commit a `main` — 50 archivos, 15 660 líneas
+- [x] Push a GitHub, GitHub Actions disparado
+- [ ] **PENDIENTE MANUAL:** Settings → Pages → Source: "GitHub Actions" (hacer una sola vez en GitHub)
+- [ ] Confirmar deploy exitoso en: `https://nelsystems77.github.io/academia-bolanos/`
+- [ ] Lighthouse audit en producción (target: Perf ≥ 90, A11y ≥ 95, BP ≥ 95, SEO = 100)
+- **Nota:** Upgrade Astro 4 → 6 diferido — abrir nueva sesión cuando se quiera migrar
 
 ---
 
@@ -215,3 +219,4 @@ tests/
 | 2026-05-31 | Sesión 1 completa — Scaffolding total, build limpio, 20/20 tests | ✅ Completo |
 | 2026-05-31 | Sesión 2 completa — Mobile menu final, scroll-reveal, fix pulse, build limpio, 20/20 tests | ✅ Completo |
 | 2026-05-31 | Sesión 7 parcial — E2E Playwright 54/54 Chromium, axe WCAG A–AA, bug fix LanguageSwitcher base path | ✅ Completo |
+| 2026-05-31 | Sesión 8 parcial — Sitemap dinámico, font optimización, CI fix, primer push a GitHub | 🚀 En progreso |
