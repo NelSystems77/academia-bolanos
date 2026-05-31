@@ -25,18 +25,14 @@ const navLinks = [
     <!-- Logo -->
     <a href={`${base}/`} class="logo" aria-label="Academia Bolaños — Inicio">
       <span class="logo__icon" aria-hidden="true">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="18" cy="18" r="18" fill="url(#logo-grad)" />
-          <path d="M12 24V13l10 4-10 4V13" stroke="white" stroke-width="2" stroke-linejoin="round" fill="none"/>
-          <circle cx="24" cy="24" r="3" fill="white" opacity="0.8"/>
-          <line x1="24" y1="21" x2="24" y2="12" stroke="white" stroke-width="1.5"/>
-          <defs>
-            <linearGradient id="logo-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#0047AB"/>
-              <stop offset="1" stop-color="#00BFFF"/>
-            </linearGradient>
-          </defs>
-        </svg>
+        <img
+          src="/academia-bolanos/assets/icons/icon-96.png"
+          width="40"
+          height="40"
+          alt=""
+          class="logo__img"
+          draggable="false"
+        />
       </span>
       <span class="logo__text">
         <span class="logo__name">Academia</span>
@@ -63,6 +59,11 @@ const navLinks = [
       >
         {t("nav.enroll")}
       </a>
+    </div>
+
+    <!-- Language switcher — always visible on mobile, hidden on desktop (handled by header__actions) -->
+    <div class="lang-mobile" aria-hidden="false">
+      <LanguageSwitcher lang={lang} currentPath={currentPath} />
     </div>
 
     <!-- Mobile menu toggle -->
@@ -103,9 +104,6 @@ const navLinks = [
       {t("nav.enroll")}
     </a>
   </nav>
-  <div class="mobile-menu__footer">
-    <LanguageSwitcher lang={lang} currentPath={currentPath} />
-  </div>
 </div>
 
 <!-- Backdrop overlay -->
@@ -207,6 +205,15 @@ const navLinks = [
     flex-shrink: 0;
   }
 
+  .logo__img {
+    display: block;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px rgba(0, 191, 255, 0.35);
+  }
+
   .logo__text {
     display: flex;
     flex-direction: column;
@@ -276,6 +283,17 @@ const navLinks = [
   .btn-enroll:hover {
     background: var(--color-primary-light);
     transform: translateY(-1px);
+  }
+
+  /* ── Mobile lang switcher (header bar) ──────────────────── */
+  .lang-mobile {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .lang-mobile { display: none; }
   }
 
   /* ── Mobile toggle ───────────────────────────────────────── */

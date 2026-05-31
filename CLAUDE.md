@@ -205,6 +205,7 @@ tests/
 - [x] `npm audit --audit-level=critical` en CI (CVEs Astro 4.x son SSR-only, app es 100% SSG)
 - [x] Primer commit a `main` — 50 archivos, 15 660 líneas
 - [x] Push a GitHub, GitHub Actions disparado
+- [x] Logo real implementado en Header — `icon-96.png` con `border-radius: 50%` + ring acento azul; reemplaza SVG genérico
 - [ ] **PENDIENTE MANUAL:** Settings → Pages → Source: "GitHub Actions" (hacer una sola vez en GitHub)
 - [ ] Confirmar deploy exitoso en: `https://nelsystems77.github.io/academia-bolanos/`
 - [ ] Lighthouse audit en producción (target: Perf ≥ 90, A11y ≥ 95, BP ≥ 95, SEO = 100)
@@ -220,3 +221,4 @@ tests/
 | 2026-05-31 | Sesión 2 completa — Mobile menu final, scroll-reveal, fix pulse, build limpio, 20/20 tests | ✅ Completo |
 | 2026-05-31 | Sesión 7 parcial — E2E Playwright 54/54 Chromium, axe WCAG A–AA, bug fix LanguageSwitcher base path | ✅ Completo |
 | 2026-05-31 | Sesión 8 parcial — Sitemap dinámico, font optimización, CI fix, primer push a GitHub | 🚀 En progreso |
+| 2026-05-31 | Logo real — `icon-96.png` redondo en Header, reemplaza SVG placeholder | ✅ Completo |
