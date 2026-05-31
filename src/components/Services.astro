@@ -1,0 +1,98 @@
+---
+import ServiceCard from "./ServiceCard.astro";
+import { getLocalizedServices } from "@/i18n/services";
+import { useTranslations, type Lang } from "@/i18n/ui";
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const services = getLocalizedServices(lang);
+---
+
+<section id="services" class="services" aria-labelledby="services-title">
+  <div class="container-page">
+    <header class="section-header reveal">
+      <span class="section-label" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+        </svg>
+        {lang === "es" ? "Lo que ofrecemos" : "What we offer"}
+      </span>
+      <h2 id="services-title" class="section-title">{t("services.title")}</h2>
+      <p class="section-subtitle">{t("services.subtitle")}</p>
+    </header>
+
+    <div class="services__grid" role="list" aria-label={t("services.title")}>
+      {services.map((service, i) => (
+        <div role="listitem" class="reveal" style={`--reveal-delay: ${i * 90}ms`}>
+          <ServiceCard service={service} lang={lang} ctaLabel={t("services.cta")} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding-block: 5rem 6rem;
+    background: var(--color-dark-2);
+    position: relative;
+  }
+
+  .services::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,71,171,0.4), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    max-width: 560px;
+    margin-inline: auto;
+    line-height: 1.7;
+  }
+
+  .services__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .services__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .services__grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

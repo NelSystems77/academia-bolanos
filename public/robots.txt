@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nelsystems77.github.io/academia-bolanos/sitemap-index.xml

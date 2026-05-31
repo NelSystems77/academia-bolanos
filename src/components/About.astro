@@ -1,0 +1,242 @@
+---
+import { useTranslations, type Lang, type UiKey } from "@/i18n/ui";
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const features = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    title: t("about.feature.1.title" as UiKey),
+    desc:  t("about.feature.1.desc"  as UiKey),
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    title: t("about.feature.2.title" as UiKey),
+    desc:  t("about.feature.2.desc"  as UiKey),
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: t("about.feature.3.title" as UiKey),
+    desc:  t("about.feature.3.desc"  as UiKey),
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+    title: t("about.feature.4.title" as UiKey),
+    desc:  t("about.feature.4.desc"  as UiKey),
+  },
+];
+---
+
+<section id="about" class="about" aria-labelledby="about-title">
+  <div class="container-page">
+    <header class="section-header reveal">
+      <span class="section-label" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+        </svg>
+        {lang === "es" ? "Nuestra propuesta" : "Our approach"}
+      </span>
+      <h2 id="about-title" class="section-title">{t("about.title")}</h2>
+      <p class="section-subtitle">{t("about.subtitle")}</p>
+    </header>
+
+    <div class="about__grid" role="list" aria-label={t("about.title")}>
+      {features.map((f, i) => (
+        <article class="about__card reveal" role="listitem" style={`--reveal-delay: ${i * 80}ms`}>
+          <div class="about__card-icon" aria-hidden="true">
+            <Fragment set:html={f.icon} />
+          </div>
+          <h3 class="about__card-title">{f.title}</h3>
+          <p class="about__card-desc">{f.desc}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="about__trust reveal" aria-label={lang === "es" ? "Logros" : "Achievements"}>
+      <div class="about__trust-item">
+        <span class="about__trust-number">200+</span>
+        <span class="about__trust-label">{lang === "es" ? "Estudiantes formados" : "Students trained"}</span>
+      </div>
+      <div class="about__trust-divider" aria-hidden="true"></div>
+      <div class="about__trust-item">
+        <span class="about__trust-number">10+</span>
+        <span class="about__trust-label">{lang === "es" ? "Años de experiencia" : "Years of experience"}</span>
+      </div>
+      <div class="about__trust-divider" aria-hidden="true"></div>
+      <div class="about__trust-item">
+        <span class="about__trust-number">4</span>
+        <span class="about__trust-label">{lang === "es" ? "Áreas de enseñanza" : "Teaching areas"}</span>
+      </div>
+      <div class="about__trust-divider" aria-hidden="true"></div>
+      <div class="about__trust-item">
+        <span class="about__trust-number">98%</span>
+        <span class="about__trust-label">{lang === "es" ? "Satisfacción estudiantil" : "Student satisfaction"}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding-block: 5rem 6rem;
+    background: var(--color-dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about::before {
+    content: "";
+    position: absolute;
+    bottom: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0,71,171,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    max-width: 540px;
+    margin-inline: auto;
+    line-height: 1.7;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .about__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .about__grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .about__card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .about__card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .about__card-icon {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 71, 171, 0.15);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+    margin-bottom: 1.125rem;
+  }
+
+  .about__card-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .about__card-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+
+  .about__trust {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid rgba(0,71,171,0.2);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    align-items: center;
+    justify-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .about__trust {
+      display: flex;
+      justify-content: space-around;
+      gap: 0;
+    }
+  }
+
+  .about__trust-divider {
+    display: none;
+    width: 1px;
+    height: 3rem;
+    background: rgba(255,255,255,0.08);
+  }
+
+  @media (min-width: 768px) {
+    .about__trust-divider { display: block; }
+  }
+
+  .about__trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .about__trust-number {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .about__trust-label {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,223 @@
+---
+import "../styles/global.css";
+import { getLangFromUrl, useTranslations, type Lang } from "@/i18n/ui";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  lang?: Lang;
+  canonicalURL?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = "/assets/og-default.png",
+  lang: propLang,
+  canonicalURL,
+  noindex = false,
+} = Astro.props;
+
+const lang = propLang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const siteTitle = t("meta.siteName");
+const pageTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} — ${t("hero.headline")}`;
+const pageDesc = description ?? t("meta.description");
+
+const siteURL = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonical = canonicalURL ?? Astro.url.href;
+const ogImage = image.startsWith("http") ? image : `${siteURL}${image}`;
+
+const altLang = lang === "es" ? "en" : "es";
+const altPath = lang === "es" ? `/en${Astro.url.pathname}` : Astro.url.pathname.replace(/^\/en/, "") || "/";
+const altURL = `${siteURL}${altPath}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["LocalBusiness", "EducationalOrganization"],
+      "@id": `${siteURL}/#organization`,
+      name: "Academia Bolaños",
+      url: siteURL,
+      logo: `${siteURL}/assets/logo.png`,
+      image: ogImage,
+      description: pageDesc,
+      telephone: "+50689215848",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "CR",
+        addressRegion: "Costa Rica",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+50689215848",
+        contactType: "customer service",
+        availableLanguage: ["Spanish", "English"],
+      },
+      sameAs: ["https://wa.me/50689215848"],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: lang === "es" ? "Servicios" : "Services",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: lang === "es" ? "Clases de Guitarra" : "Guitar Classes",
+              description: lang === "es"
+                ? "Clases individuales de guitarra para todos los niveles"
+                : "Individual guitar classes for all levels",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: lang === "es" ? "Clases de Ukelele" : "Ukulele Classes",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: lang === "es" ? "Clases de Canto" : "Singing Classes",
+            },
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Course",
+              name: lang === "es" ? "Clases de Inglés y Español" : "English and Spanish Classes",
+            },
+          },
+        ],
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteURL}/#website`,
+      url: siteURL,
+      name: "Academia Bolaños",
+      publisher: { "@id": `${siteURL}/#organization` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteURL}/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Primary Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDesc} />
+    <meta name="keywords" content={t("meta.keywords")} />
+    <meta name="author" content="Academia Bolaños" />
+    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow"} />
+    <meta name="theme-color" content="#0047AB" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={altLang} href={altURL} />
+    <link rel="alternate" hreflang="x-default" href={`${siteURL}/`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Academia Bolaños" />
+    <meta property="og:site_name" content="Academia Bolaños" />
+    <meta property="og:locale" content={lang === "es" ? "es_CR" : "en_US"} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/academia-bolanos/favicon.svg" />
+    <link rel="apple-touch-icon" href="/academia-bolanos/assets/icons/icon-192.png" />
+    <meta name="msapplication-TileColor" content="#0047AB" />
+
+    <!-- Fonts: preconnect + non-blocking load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800;900&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800;900&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800;900&display=swap" />
+    </noscript>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <!-- Skip to main content (accessibility) -->
+    <a href="#main-content" class="skip-link">
+      {lang === "es" ? "Ir al contenido principal" : "Skip to main content"}
+    </a>
+
+    <slot />
+
+    <!-- Scroll-reveal: IntersectionObserver for .reveal elements -->
+    <script>
+      (function () {
+        const reveals = document.querySelectorAll<HTMLElement>(".reveal");
+        if (!reveals.length) return;
+
+        // Check reduced-motion preference before doing anything
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        reveals.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            // Already in viewport on load — show immediately
+            el.classList.add("visible");
+          } else {
+            el.classList.add("js-ready");
+            observer.observe(el);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

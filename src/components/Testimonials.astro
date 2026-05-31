@@ -1,0 +1,223 @@
+---
+import { useTranslations, type Lang } from "@/i18n/ui";
+
+export interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+interface Testimonial {
+  name: string;
+  role: string;
+  avatar: string;
+  rating: number;
+  text: { es: string; en: string };
+}
+
+const testimonials: Testimonial[] = [
+  {
+    name: "María González",
+    role: lang === "es" ? "Estudiante de guitarra" : "Guitar student",
+    avatar: "MG",
+    rating: 5,
+    text: {
+      es: "Empecé sin saber nada de guitarra y en 6 meses ya toco mis canciones favoritas. El profesor explica con mucha paciencia y el ambiente es increíble.",
+      en: "I started knowing nothing about guitar and within 6 months I was already playing my favorite songs. The teacher explains with great patience and the atmosphere is incredible.",
+    },
+  },
+  {
+    name: "Carlos Rodríguez",
+    role: lang === "es" ? "Estudiante de inglés" : "English student",
+    avatar: "CR",
+    rating: 5,
+    text: {
+      es: "Gracias a las clases de inglés conseguí el trabajo que quería. Las clases son muy prácticas y enfocadas en conversación real.",
+      en: "Thanks to the English classes I got the job I wanted. The classes are very practical and focused on real conversation.",
+    },
+  },
+  {
+    name: "Ana Vargas",
+    role: lang === "es" ? "Estudiante de canto" : "Singing student",
+    avatar: "AV",
+    rating: 5,
+    text: {
+      es: "Siempre soñé con cantar. Academia Bolaños me ayudó a descubrir mi voz y ahora participo en presentaciones locales. ¡Totalmente recomendado!",
+      en: "I always dreamed of singing. Academia Bolaños helped me discover my voice and now I participate in local performances. Totally recommended!",
+    },
+  },
+];
+
+function stars(n: number) {
+  return Array(n).fill("★").join("");
+}
+---
+
+<section id="testimonials" class="testimonials" aria-labelledby="testimonials-title">
+  <div class="container-page">
+    <header class="section-header">
+      <span class="section-label" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        {lang === "es" ? "Testimonios" : "Testimonials"}
+      </span>
+      <h2 id="testimonials-title" class="section-title">{t("testimonials.title")}</h2>
+      <p class="section-subtitle">{t("testimonials.subtitle")}</p>
+    </header>
+
+    <div class="testimonials__grid" role="list" aria-label={t("testimonials.title")}>
+      {testimonials.map((testimonial) => (
+        <article class="testimonial-card" role="listitem" aria-label={`${lang === "es" ? "Testimonio de" : "Testimonial from"} ${testimonial.name}`}>
+          <div class="testimonial-card__header">
+            <div class="testimonial-card__avatar" aria-hidden="true">
+              {testimonial.avatar}
+            </div>
+            <div>
+              <div class="testimonial-card__name">{testimonial.name}</div>
+              <div class="testimonial-card__role">{testimonial.role}</div>
+            </div>
+          </div>
+
+          <div class="testimonial-card__stars" aria-label={`${testimonial.rating} ${lang === "es" ? "estrellas de 5" : "stars out of 5"}`} role="img">
+            <span aria-hidden="true">{stars(testimonial.rating)}</span>
+          </div>
+
+          <blockquote class="testimonial-card__text">
+            <p>"{testimonial.text[lang]}"</p>
+          </blockquote>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding-block: 5rem 6rem;
+    background: var(--color-dark-2);
+    position: relative;
+  }
+
+  .testimonials::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,71,171,0.3), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 0.875rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    max-width: 540px;
+    margin-inline: auto;
+    line-height: 1.7;
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .testimonials__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .testimonials__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .testimonial-card {
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .testimonial-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .testimonial-card__avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .testimonial-card__name {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+  }
+
+  .testimonial-card__role {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .testimonial-card__stars {
+    font-size: 1rem;
+    color: #FBBF24;
+    letter-spacing: 0.1em;
+  }
+
+  .testimonial-card__text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    border: none;
+    flex: 1;
+  }
+
+  .testimonial-card__text p { margin: 0; }
+</style>
