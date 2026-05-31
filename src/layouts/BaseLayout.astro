@@ -169,14 +169,14 @@ const jsonLd = {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800;900&display=swap"
       media="print"
-      onload="this.media='all'"
+      onload="this.onload=null;this.media='all'"
     />
     <noscript>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800;900&display=swap" />
     </noscript>
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <!-- Skip to main content (accessibility) -->
