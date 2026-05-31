@@ -42,3 +42,9 @@ test-results/
 
 # TypeScript
 *.tsbuildinfo
+
+# Claude Code — project instructions (local only)
+CLAUDE.md
+
+# Verification screenshots (temporary)
+verify*.png
